@@ -2481,7 +2481,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /*!******************************************************!*\
   !*** ./node_modules/telegram-mtproto/es/tl/index.js ***!
   \******************************************************/
-/*! exports provided: Serialization, Deserialization, TL, TypeWriter, default, WriteMediator, ReadMediator */
+/*! exports provided: Serialization, Deserialization, TL, WriteMediator, ReadMediator, TypeWriter, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2985,6 +2985,18 @@ eval("module.exports = function() {\n\treturn __webpack_require__(/*! !./node_mo
 
 /***/ }),
 
+/***/ "./src/client.js":
+/*!***********************!*\
+  !*** ./src/client.js ***!
+  \***********************/
+/*! exports provided: Client */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Client\", function() { return Client; });\n/* harmony import */ var telegram_mtproto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! telegram-mtproto */ \"./node_modules/telegram-mtproto/es/index.js\");\n\nconst api = {\n  layer: 105,\n  initConnection: 0x69796de9,\n  api_id: 1023699\n};\nconst server = {\n  dev: true //We will connect to the test server.\n\n}; //Any empty configurations fields can just not be specified\n\nclass Client {\n  constructor(phone) {\n    this.api_id = 1023699;\n    this.api_hash = '7bc11ea3a1de65c529b93c3aa5dc5c22';\n    this.phone = phone;\n    this.client = Object(telegram_mtproto__WEBPACK_IMPORTED_MODULE_0__[\"MTProto\"])({\n      server,\n      api\n    });\n  }\n\n  async _getPhoneHash() {\n    return await this.client('auth.sendCode', {\n      phone_number: this.phone,\n      current_number: false,\n      api_id: this.api_id,\n      api_hash: this.api_hash\n    });\n  }\n\n  async signIn(code) {\n    const phoneHash = await this._getPhoneHash();\n    return await this.client('auth.signIn', {\n      phone_number: this.phone,\n      phone_code_hash: phoneHash,\n      phone_code: code\n    });\n  }\n\n}\n\n//# sourceURL=webpack:///./src/client.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -2993,7 +3005,7 @@ eval("module.exports = function() {\n\treturn __webpack_require__(/*! !./node_mo
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var telegram_mtproto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! telegram-mtproto */ \"./node_modules/telegram-mtproto/es/index.js\");\n\nconst phone = {\n  num: '+9996620001',\n  code: '22222'\n};\nconst api = {\n  layer: 57,\n  initConnection: 0x69796de9,\n  api_id: 49631\n};\nconst server = {\n  dev: true //We will connect to the test server.\n\n}; //Any empty configurations fields can just not be specified\n\nconst client = Object(telegram_mtproto__WEBPACK_IMPORTED_MODULE_0__[\"MTProto\"])({\n  server,\n  api\n});\n\nasync function connect() {\n  const {\n    phone_code_hash\n  } = await client('auth.sendCode', {\n    phone_number: phone.num,\n    current_number: false,\n    api_id: 49631,\n    api_hash: 'fb050b8f6771e15bfda5df2409931569'\n  });\n  const {\n    user\n  } = await client('auth.signIn', {\n    phone_number: phone.num,\n    phone_code_hash: phone_code_hash,\n    phone_code: phone.code\n  });\n  console.log('signed as ', user);\n}\n\nconnect();\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./client */ \"./src/client.js\");\n\nconst client = new _client__WEBPACK_IMPORTED_MODULE_0__[\"Client\"]('+9996620001');\nclient.signIn('22222');\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 

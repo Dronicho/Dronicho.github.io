@@ -8,6 +8,9 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   target: 'web',
+  optimization: {
+    minimize: false
+  },
   module: {
     rules: [
       {
