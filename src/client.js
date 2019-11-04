@@ -11,15 +11,16 @@ export const server = {
 }           //Any empty configurations fields can just not be specified
 
 export class Client {
-
   constructor(phone, server, api) {
     this.api_id = 1023699;
     this.api_hash = '7bc11ea3a1de65c529b93c3aa5dc5c22';
     this.phone = phone;
     this.client = MTProto({ server, api });
+    console.log('client created');
   }
 
   async sendCode() {
+    console.log('sending code...');
     this.sentCode = await this.client('auth.sendCode', {
       phone_number: this.phone,
       current_number: false,
@@ -29,10 +30,22 @@ export class Client {
   }
 
   async signIn(code, phoneHash) {
+    console.log('logging in...');
     return await this.client('auth.signIn', {
       phone_number: this.phone,
       phone_code_hash: this.sentCode.phone_code_hash,
       phone_code: code
+    });
+  }
+
+  async signUp(firstName, lastName, code) {
+    console.log('registering...');
+    return await this.client('auth.signUp', {
+      phone_number: this.phone,
+      phone_code_hash: this.sentCode.phone_code_hash,
+      phone_code: code,
+      first_name: firstName,
+      last_name: lastName
     });
   }
 }
