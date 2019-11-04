@@ -1,5 +1,6 @@
 const path = require('path');
 
+
 module.exports = {
   entry: './src/index.js',
   output: {
@@ -7,5 +8,12 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   target: 'web',
-  
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: ['babel-loader']
+      }
+    ]
+  }
 };
